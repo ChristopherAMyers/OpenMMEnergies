@@ -1,0 +1,83 @@
+import numpy as np
+from simtk.openmm.app import *
+from simtk.unit import *
+from simtk.openmm.openmm import CustomNonbondedForce, NonbondedForce
+
+# pylint: disable=no-member
+import simtk
+picoseconds = simtk.unit.picoseconds
+picosecond = picoseconds
+nanometer = simtk.unit.nanometer
+femtoseconds = simtk.unit.femtoseconds
+# pylint: enable=no-member
+
+Z2alpha = {
+    1: 1.2050,
+    6: 0.7146,
+    7: 0.7606,
+    8: 0.9593,
+    15: 3.0127
+}
+
+def gaussian_density(system, topology, remove_nbf=True):
+
+    
+        #   find the nonbonded force
+    nb_force = None
+    nb_force_idx = -1
+    for n, force in enumerate(system.getForces()):
+        if isinstance(force, NonbondedForce):
+            nb_force = force
+            nb_force_idx = n
+            break
+
+    forceString = "4*epsilon*((sigma/r)^12 - (sigma/r)^6) "
+    #forceString += " + 138.935458*q1*q2/r; "
+    #forceString += " + 138.935458*q1*q2*erf(alpha*r)/r; "
+    forceString += " + 138.935458*( (Z1-q1)*(Z2-q2)*erf(alpha*r)/r - (Z1-q1)*Z2*erf(sqrt(a1)*r)/r - (Z2-q2)*Z1*erf(sqrt(a2)*r)/r + Z1*Z2/r ); "
+    forceString += "sigma=0.5*(sigma1+sigma2); "
+    forceString += "epsilon=sqrt(epsilon1*epsilon2); "
+    forceString += "alpha = sqrt(a1*a2/(a1+a2)); "
+    CustomForce = CustomNonbondedForce(forceString)
+    CustomForce.addPerParticleParameter("q")
+    CustomForce.addPerParticleParameter("sigma")
+    CustomForce.addPerParticleParameter("epsilon")
+    CustomForce.addPerParticleParameter("Z")
+    CustomForce.addPerParticleParameter("a")
+
+    #   extract and scale parameters
+    #   also separate out atoms from each fragment
+    n_part = nb_force.getNumParticles()
+    sigma     = []
+    epsilon   = []
+    ff_charge = []
+    atoms1 = []; atoms2 = []
+    for n, atom in enumerate(topology.atoms()):
+        params = nb_force.getParticleParameters(n)
+        if atom.element.atomic_number > 1:
+            params[1] = 1.00 * params[1]
+            params[2] = 1.00 * params[2]
+        ff_charge.append(params[0])
+        sigma.append(params[1])
+        epsilon.append(params[2])
+        z = int(atom.element.atomic_number)
+        alpha = Z2alpha[z]*(18.8973**2)*0.7 #   convert to 1/nm^2
+        print(alpha)
+        #nb_force.setParticleParameters(n, ff_charge[n], sigma[n], epsilon[n])
+        CustomForce.addParticle([ff_charge[n], sigma[n], epsilon[n], z, alpha])
+
+    #   replace the non-bonded force with ours
+    #system.removeForce(0)
+    #CustomForce.addInteractionGroup([0], [40])
+    #CustomForce.addInteractionGroup(atoms1, atoms2)
+
+    if remove_nbf:
+        system.removeForce(nb_force_idx)
+
+    bonds = []
+    for bond in topology.bonds():
+        bonds.append((bond.atom1.index, bond.atom2.index))
+    CustomForce.createExclusionsFromBonds(bonds, 3)
+
+    system.addForce(CustomForce)
+    return CustomForce
