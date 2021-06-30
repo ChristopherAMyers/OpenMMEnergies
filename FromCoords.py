@@ -2,12 +2,15 @@ import re
 from simtk.openmm.app import *
 from simtk.openmm import *
 from simtk.openmm.openmm import CustomNonbondedForce, Integrator, VerletIntegrator, NonbondedForce
+#from simtk.openmm.openmm import *
 from simtk.unit import *
 import argparse
 import numpy as np
 from copy import copy
 import altered_forces
 from os import environ, path
+
+from EnergyReporter import EnergyReporter
 
 # pylint: disable=no-member
 import simtk
@@ -66,6 +69,8 @@ def create_system(args, topol):
         #   create system
         system = amber.createSystem(topol, nonbondedCutoff=2*nanometer)
 
+
+
     return system
     
 
@@ -73,39 +78,45 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
     parser.add_argument('-xyz_list')
-    parser.add_argument('-chg', help='supplimental column of charges to use')
+    parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
-    parser.add_argument('-dens', help='Replace charges with Gaussian electron densities')
+    parser.add_argument('-dens', help='Replace charges with Gaussian electron densities', action='store_true')
     args = parser.parse_args()
 
     #   load in pdb and assign atom types
     pdb = PDBFile(args.pdb)
     topol = pdb.getTopology()
-    amber = ForceField('amber99sb.xml')
-    [templates, residues] = amber.generateTemplatesForUnmatchedResidues(topol)
-    for n, template in enumerate(templates):
-        amber_template = amber._templates[template.name]
-        for atom in template.atoms:
-            for amber_atom in amber_template.atoms:
-                if amber_atom.name == atom.name:
-                    atom.type = amber_atom.type
-                    break
-                if atom.type == None:
-                    atom.type = '1581' # RA-H8
-        template.name = str(n) + template.name   
-        amber.registerResidueTemplate(template)
 
-    #   create system
+    #   create system object. This holds the forces used
     system = create_system(args, topol)
-    system = amber.createSystem(topol, nonbondedCutoff=2*nanometer)
-    if args.dens:
+
+    #   replace charges with point nuclei and gaussian electron densities
+    if args.dens and False:
         altered_forces.gaussian_density(system, topol)
+
+    #   for DEBUG only
+    while system.getNumForces() > 1 and False:
+        for i in range(system.getNumForces()):
+            force = system.getForce(i)
+            if not isinstance(force, PeriodicTorsionForce):
+                system.removeForce(i)
+                break
+
+    #   set up custom energy reporter
+    eng_report = EnergyReporter(1, system)
+
+    #   set up integrator and simulation objects
     integrator = VerletIntegrator(2*femtoseconds)
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
 
-    if args.chg:
+    if args.chg and False:
         assign_charges(args.chg, system, topol, simulation)
+
+
+    eng_report.report(simulation, None)
+    #exit()
+    
 
     #   get self_energy
     self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()*0.0
@@ -116,6 +127,7 @@ if __name__ == '__main__':
         simulation.context.setPositions(pos)
         self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
     print("Self: ", self_energy)
+    #exit()
     
 
     for x in np.arange(-0.5, 2.5, 0.1):
