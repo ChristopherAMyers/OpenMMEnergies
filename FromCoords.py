@@ -11,6 +11,7 @@ import altered_forces
 from os import environ, path
 
 from EnergyReporter import EnergyReporter
+from molFileReader import molFileReader
 
 # pylint: disable=no-member
 import simtk
@@ -21,6 +22,21 @@ femtoseconds = simtk.unit.femtoseconds
 # pylint: enable=no-member
 
 def assign_charges(chg_file, system, topology, simulation):
+    """ Change the charges in a forcefield
+
+        Parameters
+        ----------
+        system: openmm.System
+            System that contains either NonbondedForce or CustomNonbondedForce force
+        topology: openmm.Topology
+            Topology object (typically from PDB) to construct system from
+        simulation: openmm.Simulation
+            The Simulation object to update parameters in context
+            
+        Returns
+        -------
+        System object to use with a Simulation object
+    """
     charges = np.loadtxt(chg_file)
     nb_force = None
     for n, force in enumerate(system.getForces()):
@@ -30,8 +46,6 @@ def assign_charges(chg_file, system, topology, simulation):
         elif isinstance(force, NonbondedForce):
             nb_force = force
             break
-    
-    #return nb_force
 
     for atom in topology.atoms():
         params = list(nb_force.getParticleParameters(atom.index))
@@ -44,6 +58,19 @@ def assign_charges(chg_file, system, topology, simulation):
     nb_force.updateParametersInContext(simulation.context)
 
 def create_system(args, topol):
+    """ Create the system of forces
+
+        Parameters
+        ----------
+        args: args
+            Script arguments parsed from ArgumentParser
+        topol: Topology
+            Topology object (typically from PDB) to construct system from
+            
+        Returns
+        -------
+        System object to use with a Simulation object
+    """
     system = None
     if args.top:
         home = environ['HOME']
@@ -69,8 +96,6 @@ def create_system(args, topol):
         #   create system
         system = amber.createSystem(topol, nonbondedCutoff=2*nanometer)
 
-
-
     return system
     
 
@@ -78,6 +103,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
     parser.add_argument('-xyz_list')
+    parser.add_argument('-xyz')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
     parser.add_argument('-dens', help='Replace charges with Gaussian electron densities', action='store_true')
@@ -110,43 +136,52 @@ if __name__ == '__main__':
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
 
-    if args.chg and False:
+    #   replace charges in force field with provided charge list
+    if args.chg:
         assign_charges(args.chg, system, topol, simulation)
 
 
     eng_report.report(simulation, None)
+    StateDataReporter()
     #exit()
-    
+
+    #   extract coordinates to look over
+    coords_to_use = []
+    if args.xyz:
+        mol = molFileReader.XYZ()
+        mol.import_xyz(args.xyz)
+        for frame in mol.frames:
+            coords_to_use.append(np.copy(frame.coords))
+    else:
+        for n in range(pdb.getNumFrames()):
+            coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
+
 
     #   get self_energy
-    self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()*0.0
-    if topol.getNumResidues() == 2:
-        pos = copy(pdb.getPositions())
-        for atom in list(topol.residues())[1].atoms():
-            pos[atom.index] += Vec3(10, 0, 0)*nanometer
-        simulation.context.setPositions(pos)
-        self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-    print("Self: ", self_energy)
-    #exit()
+    if True:
+        self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()*0.0
+        if topol.getNumResidues() == 2:
+            pos = copy(pdb.getPositions())
+            for atom in list(topol.residues())[1].atoms():
+                pos[atom.index] += Vec3(10, 0, 0)*nanometer
+            simulation.context.setPositions(pos)
+            self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
+        print("Self: ", self_energy)
     
+    if False:
+        for x in np.arange(-0.5, 2.5, 0.1):
+            pos = np.copy(pdb.getPositions(True)/angstrom)*angstrom
+            pos[15:] += np.array([x, 0, 0])*angstroms
+            simulation.context.setPositions(pos)
+            energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
+            print("{:5.2f}  {:12.3f} {:s}".format(x, (energy - self_energy)/energy.unit, str(energy.unit)))
+        exit()
 
-    for x in np.arange(-0.5, 2.5, 0.1):
-        pos = np.copy(pdb.getPositions(True)/angstrom)*angstrom
-        pos[15:] += np.array([x, 0, 0])*angstroms
-        simulation.context.setPositions(pos)
-        energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-        print("{:5.2f}  {:12.3f} {:s}".format(x, (energy - self_energy)/energy.unit, str(energy.unit)))
-    exit()
-
-
-
-    #   print energies
-    for line in open(args.xyz_list):
-        split = line.split()
-        if '#' in split[0]: continue
-        coords = np.loadtxt(split[0], skiprows=2, usecols=(1, 2, 3))
+    for coords in coords_to_use:
         simulation.context.setPositions(coords*angstroms)
         state = simulation.context.getState(getEnergy=True)
-        print(state.getPotentialEnergy() - self_energy)
-    
+        eng_report.report(simulation, state, total_only=True)
+        #print(state.getPotentialEnergy() - self_energy)
+    exit()
+
 
