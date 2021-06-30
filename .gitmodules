@@ -1,0 +1,3 @@
+[submodule "molFileReader"]
+	path = molFileReader
+	url = https://github.com/ChristopherAMyers/molFileReader.git
