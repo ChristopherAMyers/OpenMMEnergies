@@ -45,7 +45,7 @@ class EnergyReporter(object):
             ----------
             system: openmm.system
                 Simulation system to grab forces from
-                
+
             Returns
             -------
             A dictionary with keys as the force pointers and values of the 
@@ -89,13 +89,14 @@ class EnergyReporter(object):
             total = 0 * unit.kilojoule_per_mole
             for f, i in self._force_gorups.items():
                 energy = simulation.context.getState(getEnergy=True, groups=2**i).getPotentialEnergy()
-                print(" {:16} {:15.3f} kJ/mol".format(self._type2name[type(f)], energy/unit.kilojoule_per_mole))
+                print(" {:16} {:15.3f} kJ/mol".format(self._type2name.get(type(f), str(f)), energy/unit.kilojoule_per_mole))
                 total += energy
             print(" --------------------------------------- ")
         if state:
             total = state.getPotentialEnergy()
         else:
             total = simulation.context.getState(getEnergy=True).getPotentialEnergy()
+        
         print(" {:16} {:15.3f} kJ/mol".format("Total energy", total/unit.kilojoule_per_mole))
 
 

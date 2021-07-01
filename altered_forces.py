@@ -20,8 +20,6 @@ Z2alpha = {
 }
 
 def gaussian_density(system, topology, remove_nbf=True):
-
-    
         #   find the nonbonded force
     nb_force = None
     nb_force_idx = -1
@@ -51,7 +49,7 @@ def gaussian_density(system, topology, remove_nbf=True):
     sigma     = []
     epsilon   = []
     ff_charge = []
-    atoms1 = []; atoms2 = []
+    total_charge = 0 * elementary_charge
     for n, atom in enumerate(topology.atoms()):
         params = nb_force.getParticleParameters(n)
         if atom.element.atomic_number > 1:
@@ -61,28 +59,32 @@ def gaussian_density(system, topology, remove_nbf=True):
         sigma.append(params[1])
         epsilon.append(params[2])
         z = int(atom.element.atomic_number)
-        alpha = Z2alpha[z]*(18.8973**2)*20 #   convert to 1/nm^2
-        #nb_force.setParticleParameters(n, ff_charge[n], sigma[n], epsilon[n])
+        alpha = Z2alpha.get(z, 1.00)*(18.8973**2)*200 #   convert to 1/nm^2
+        total_charge += ff_charge[n]
         custom_force.addParticle([ff_charge[n], sigma[n], epsilon[n], z, alpha])
 
     bonds = []
     for bond in topology.bonds():
-        bonds.append((bond.atom1.index, bond.atom2.index))
+        bond_idx = (bond.atom1.index, bond.atom2.index)
+        if -1 in bond_idx or 15 in bond_idx:
+            print(bond_idx, bond) 
+        bonds.append(bond_idx)
     custom_force.createExclusionsFromBonds(bonds, 3)
+    custom_force.setCutoffDistance(2*nanometer)
 
     print('adding exceptions:')
     print('Number of exceptions before:', custom_force.getNumExclusions())
     print('Number of nb exceptions to add:', nb_force.getNumExceptions())
 
     
-    bond_expression  = "(4*epsilon*((sigma/r)^12 - (sigma/r)^6) + 138.935458*chargeprod/r);"
+    bond_expression  = "4*epsilon*((sigma/r)^12 - (sigma/r)^6) + 138.935458*chargeprod/r;"
     custom_bond_force = CustomBondForce(bond_expression)
     custom_bond_force.addPerBondParameter('chargeprod')
     custom_bond_force.addPerBondParameter('sigma')
     custom_bond_force.addPerBondParameter('epsilon')
     for idx in range(nb_force.getNumExceptions()):
         idx, jdx, chg, sigma, epsilon = nb_force.getExceptionParameters(idx)
-        if not (chg/chg.unit == 0 and epsilon/epsilon.unit == 0):
+        if chg/chg.unit != 0 or epsilon/epsilon.unit != 0:
             custom_bond_force.addBond(idx, jdx, [chg, sigma, epsilon])
 
     if remove_nbf:

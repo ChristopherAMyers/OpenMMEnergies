@@ -74,7 +74,7 @@ def create_system(args, topol):
     system = None
     if args.top:
         home = environ['HOME']
-        inc_dir = path.join(home, 'ChenRNALab/bin/gromacs-2019.4/bin/share/gromacs/top/amber99-Chen-Garcia-BB.ff')
+        inc_dir = path.join(home, 'ChenRNALab/bin/gromacs-2019.4/bin/share/gromacs/top')
         top = GromacsTopFile(args.top, includeDir=inc_dir)
         system = top.createSystem(nonbondedCutoff=2*nanometer)
     else:
@@ -112,12 +112,15 @@ if __name__ == '__main__':
     #   load in pdb and assign atom types
     pdb = PDBFile(args.pdb)
     topol = pdb.getTopology()
+    for residue in topol.residues():
+        if residue.name == 'UNK':
+            print('WARNING: Residue name "UNK" might cause bonding issues')
 
     #   create system object. This holds the forces used
     system = create_system(args, topol)
 
     #   replace charges with point nuclei and gaussian electron densities
-    if args.dens and False:
+    if args.dens:
         altered_forces.gaussian_density(system, topol)
 
     #   for DEBUG only
@@ -132,29 +135,27 @@ if __name__ == '__main__':
     eng_report = EnergyReporter(1, system)
 
     #   set up integrator and simulation objects
+    #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
 
     #   replace charges in force field with provided charge list
     if args.chg:
+        print("Replacing force field charges with provided charge file")
         assign_charges(args.chg, system, topol, simulation)
 
-
-    eng_report.report(simulation, None)
-    StateDataReporter()
-    #exit()
-
-    #   extract coordinates to look over
+    #   extract coordinates to loop energies over
     coords_to_use = []
     if args.xyz:
         mol = molFileReader.XYZ()
         mol.import_xyz(args.xyz)
         for frame in mol.frames:
-            coords_to_use.append(np.copy(frame.coords))
+            coords_to_use.append(np.copy(frame.coords)*angstroms)
     else:
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
+    print(" There are {:d} frames to loop over".format(len(coords_to_use)))
 
 
     #   get self_energy
@@ -166,7 +167,6 @@ if __name__ == '__main__':
                 pos[atom.index] += Vec3(10, 0, 0)*nanometer
             simulation.context.setPositions(pos)
             self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-        print("Self: ", self_energy)
     
     if False:
         for x in np.arange(-0.5, 2.5, 0.1):
@@ -177,11 +177,10 @@ if __name__ == '__main__':
             print("{:5.2f}  {:12.3f} {:s}".format(x, (energy - self_energy)/energy.unit, str(energy.unit)))
         exit()
 
-    for coords in coords_to_use:
-        simulation.context.setPositions(coords*angstroms)
+    
+    for n, coords in enumerate(coords_to_use):
+        print(" \n Frame {:d}: ".format(n))
+        simulation.context.setPositions(coords)
         state = simulation.context.getState(getEnergy=True)
         eng_report.report(simulation, state, total_only=True)
-        #print(state.getPotentialEnergy() - self_energy)
-    exit()
-
 
