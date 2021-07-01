@@ -1,7 +1,8 @@
 import sys
 from simtk.openmm.openmm import HarmonicAngleForce, \
         HarmonicBondForce, NonbondedForce, PeriodicTorsionForce, \
-        CustomBondForce, CustomNonbondedForce, CMMotionRemover
+        CustomBondForce, CustomNonbondedForce, CMMotionRemover, \
+        RBTorsionForce
 import simtk.unit as unit
 
 class EnergyReporter(object):
@@ -32,7 +33,8 @@ class EnergyReporter(object):
             NonbondedForce: "Nonbonded",
             CustomNonbondedForce: "Custom Nonbonded",
             CustomBondForce: "Custom Bond",
-            CMMotionRemover: "C.O.M. Remover"
+            CMMotionRemover: "C.O.M. Remover",
+            RBTorsionForce: "R.B. Torsion"
         }
 
     def __del__(self):
