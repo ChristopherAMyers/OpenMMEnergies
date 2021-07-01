@@ -12,6 +12,7 @@ from os import environ, path
 
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
+from InputFileParser import InputFile
 
 # pylint: disable=no-member
 import simtk
@@ -98,12 +99,16 @@ def create_system(args, topol):
 
     return system
     
+def get_options(input_file):
+    parser = InputFile()
+    parser.add_argument('dens', default=False, help='Replace charges with Gaussian electron densities')
+    parser.add_argument('eda', default=False, help='Print the various energy terms for each frame')
+    parser.add_argument('')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
-    parser.add_argument('-xyz_list')
-    parser.add_argument('-xyz')
+    parser.add_argument('-xyz', help='XYZ file of coordinate frames to loop over')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
     parser.add_argument('-dens', help='Replace charges with Gaussian electron densities', action='store_true')
@@ -148,11 +153,13 @@ if __name__ == '__main__':
     #   extract coordinates to loop energies over
     coords_to_use = []
     if args.xyz:
+        print(" Program will use XYZ frames.")
         mol = molFileReader.XYZ()
         mol.import_xyz(args.xyz)
         for frame in mol.frames:
             coords_to_use.append(np.copy(frame.coords)*angstroms)
     else:
+        print(" Program will use PDB frames.")
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
     print(" There are {:d} frames to loop over".format(len(coords_to_use)))

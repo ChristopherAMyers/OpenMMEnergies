@@ -1,3 +1,6 @@
 [submodule "molFileReader"]
 	path = molFileReader
 	url = https://github.com/ChristopherAMyers/molFileReader.git
+[submodule "InputFileParser"]
+	path = InputFileParser
+	url = https://github.com/ChristopherAMyers/InputFileParser.git
