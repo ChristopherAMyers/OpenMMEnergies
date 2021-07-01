@@ -189,5 +189,5 @@ if __name__ == '__main__':
         print(" \n Frame {:d}: ".format(n))
         simulation.context.setPositions(coords)
         state = simulation.context.getState(getEnergy=True)
-        eng_report.report(simulation, state, total_only=True)
+        eng_report.report(simulation, state, total_only=False)
 
