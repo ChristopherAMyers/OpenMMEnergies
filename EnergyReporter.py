@@ -36,6 +36,7 @@ class EnergyReporter(object):
             CMMotionRemover: "C.O.M. Remover",
             RBTorsionForce: "R.B. Torsion"
         }
+        self._energy_terms = {}
 
     def __del__(self):
         self._out.close()
@@ -60,6 +61,9 @@ class EnergyReporter(object):
             groups[force] = i
         return groups
 
+    def get_energy_terms(self):
+        return self._energy_terms
+
     def describeNextReport(self, simulation):
         """ Get information about the next report
 
@@ -70,6 +74,7 @@ class EnergyReporter(object):
         """
         steps = self._interval - simulation.currentStep % self._interval
         return (steps, False, False, True, True, None)
+
 
     def report(self, simulation, state=None, total_only=False):
         """ Get information about the next report
@@ -91,7 +96,9 @@ class EnergyReporter(object):
             total = 0 * unit.kilojoule_per_mole
             for f, i in self._force_gorups.items():
                 energy = simulation.context.getState(getEnergy=True, groups=2**i).getPotentialEnergy()
-                print(" {:16} {:15.3f} kJ/mol".format(self._type2name.get(type(f), str(f)), energy/unit.kilojoule_per_mole))
+                energy_type = self._type2name.get(type(f), str(f))
+                self._energy_terms[energy_type] = energy
+                print(" {:16} {:15.3f} kJ/mol".format(energy_type, energy/unit.kilojoule_per_mole))
                 total += energy
             print(" --------------------------------------- ")
         if state:
