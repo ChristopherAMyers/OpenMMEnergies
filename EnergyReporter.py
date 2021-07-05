@@ -1,11 +1,10 @@
 import sys
-from simtk.openmm.openmm import HarmonicAngleForce, \
-        HarmonicBondForce, NonbondedForce, PeriodicTorsionForce, \
-        CustomBondForce, CustomNonbondedForce, CMMotionRemover, \
-        RBTorsionForce
+from simtk.openmm.app.forcefield import CMAPTorsion, CustomTorsion, PME
+from simtk.openmm import openmm as mm
 import simtk.unit as unit
 
 class EnergyReporter(object):
+    PME
     """Custom state reporter to print out energy components of a force field"""
     def __init__(self, interval, system, file=sys.stdout):
         """
@@ -27,14 +26,17 @@ class EnergyReporter(object):
         self._interval = int(interval)
         self._force_gorups = self._get_force_groups(system)
         self._type2name = { 
-            HarmonicBondForce: "Bond",
-            HarmonicAngleForce: "Angle",
-            PeriodicTorsionForce: "Torsion",
-            NonbondedForce: "Nonbonded",
-            CustomNonbondedForce: "Custom Nonbonded",
-            CustomBondForce: "Custom Bond",
-            CMMotionRemover: "C.O.M. Remover",
-            RBTorsionForce: "R.B. Torsion"
+            mm.HarmonicBondForce: "Bond",
+            mm.HarmonicAngleForce: "Angle",
+            mm.PeriodicTorsionForce: "Torsion",
+            mm.NonbondedForce: "Nonbonded",
+            mm.CustomNonbondedForce: "Custom Nonbonded",
+            mm.CustomBondForce: "Custom Bond",
+            mm.CMMotionRemover: "C.O.M. Remover",
+            mm.RBTorsionForce: "R.B. Torsion",
+            mm.CMAPTorsionForce: "CMAP Torsion",
+            mm.DrudeForce: "Drude",
+            mm.CustomTorsionForce: "Custom Torsion"
         }
         self._energy_terms = {}
 
@@ -100,10 +102,16 @@ class EnergyReporter(object):
                 self._energy_terms[energy_type] = energy
                 print(" {:16} {:15.3f} kJ/mol".format(energy_type, energy/unit.kilojoule_per_mole))
                 total += energy
+
+
+                # forces = simulation.context.getState(getForces=True, groups=2**i).getForces()
+                # for n, force in enumerate(forces):
+                #     print(n, force)
+
             print(" --------------------------------------- ")
-        if state:
+        try:
             total = state.getPotentialEnergy()
-        else:
+        except:
             total = simulation.context.getState(getEnergy=True).getPotentialEnergy()
         
         print(" {:16} {:15.3f} kJ/mol".format("Total energy", total/unit.kilojoule_per_mole))

@@ -4,6 +4,7 @@ from simtk.openmm import *
 from simtk.openmm.openmm import CustomNonbondedForce, Integrator, VerletIntegrator, NonbondedForce
 #from simtk.openmm.openmm import *
 from simtk.unit import *
+from simtk.openmm.app import element
 import argparse
 import numpy as np
 from copy import copy
@@ -13,6 +14,8 @@ from os import environ, path
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
 from InputFileParser import InputFile
+import minimize
+from Drude import drude
 
 # pylint: disable=no-member
 import simtk
@@ -79,7 +82,7 @@ def create_system(args, topol):
         top = GromacsTopFile(args.top, includeDir=inc_dir)
         system = top.createSystem(nonbondedCutoff=2*nanometer)
     else:
-        print("Using Amber99 as default forcefield")
+        print(" Using Amber99 as default forcefield")
         amber = ForceField('amber99sb.xml')
         [templates, residues] = amber.generateTemplatesForUnmatchedResidues(topol)
         for n, template in enumerate(templates):
@@ -91,38 +94,73 @@ def create_system(args, topol):
                         break
                     if atom.type == None:
                         atom.type = '1581' # RA-H8
+
             template.name = str(n) + template.name   
             amber.registerResidueTemplate(template)
 
-        #   create system
-        system = amber.createSystem(topol, nonbondedCutoff=2*nanometer)
+        
+        system = amber.createSystem(topol, nonbondedCutoff=4*nanometer, constraints=None)
+        
+        #   make sure that all h-bonds have a bond force. This is needed when using bond constraints
+        force = system.getForce(0)
+        force_bonds = []
+        for n in range(force.getNumBonds()):
+            force_bonds.append(tuple(sorted(force.getBondParameters(n)[0:2])))
+        for bond in topol.bonds():
+            a1 = bond.atom1
+            a2 = bond.atom2
+            top_bond = tuple(sorted([a1.index, a2.index]))
+            if top_bond not in force_bonds and \
+            (a1.element is element.hydrogen or a2.element is element.hydrogen):
+                print("Adding bond: ", bond)
+                force.addBond(a1.index, a2.index, 1*angstrom, 400000)
 
     return system
     
-def get_options(input_file):
+def get_options(input_file=None):
     parser = InputFile()
-    parser.add_argument('dens', default=False, help='Replace charges with Gaussian electron densities')
-    parser.add_argument('eda', default=False, help='Print the various energy terms for each frame')
-    parser.add_argument('')
+    parser.add_argument('dens',        default=False, help='Replace charges with Gaussian electron densities')
+    parser.add_argument('print_eda',   default=False, help='Print the various energy terms for each frame')
+    parser.add_argument('optimize',    default=False, help='perform optimization on each frame')
+    parser.add_argument('print_force', default=False, help='Print forces along with energies')
+    args = parser.parse_args()
 
+    return args
+
+def set_self_energies(eng_report, mol):
+    if not isinstance(mol, molFileReader.QC):
+        raise NotImplementedError("Self energies are only supported for -qcin molecules")
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
+    parser.add_argument('-psf', help='CHARMM PSF topology file', required=True)
     parser.add_argument('-xyz', help='XYZ file of coordinate frames to loop over')
+    parser.add_argument('-qcin', help='Q-Chem input file with coordantes to use')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
     parser.add_argument('-dens', help='Replace charges with Gaussian electron densities', action='store_true')
     args = parser.parse_args()
+    opts = get_options()
+    #exit()
 
     #   load in pdb and assign atom types
+    print(" Loading PDB File")
     pdb = PDBFile(args.pdb)
+    print(" Done Loading PDB")
     topol = pdb.getTopology()
+
     for residue in topol.residues():
         if residue.name == 'UNK':
             print('WARNING: Residue name "UNK" might cause bonding issues')
 
     #   create system object. This holds the forces used
-    system = create_system(args, topol)
+    if args.psf:
+        system = drude.create_system(args.psf)
+    else:
+        system = create_system(args, topol)
+    
+    #exit()
 
     #   replace charges with point nuclei and gaussian electron densities
     if args.dens:
@@ -147,7 +185,7 @@ if __name__ == '__main__':
 
     #   replace charges in force field with provided charge list
     if args.chg:
-        print("Replacing force field charges with provided charge file")
+        print(" Replacing force field charges with provided charge file")
         assign_charges(args.chg, system, topol, simulation)
 
     #   extract coordinates to loop energies over
@@ -158,12 +196,20 @@ if __name__ == '__main__':
         mol.import_xyz(args.xyz)
         for frame in mol.frames:
             coords_to_use.append(np.copy(frame.coords)*angstroms)
+    elif args.qcin:
+        print(" Program will use Q-Chem input file for coordinates.")
+        mol = molFileReader.QC()
+        mol.import_qc(args.qcin)
+        all_coords = []
+        for frag in mol.fragments:
+            for coord in frag.coords:
+                all_coords.append(list(coord))
+        coords_to_use.append(np.array(all_coords)*angstroms)
     else:
         print(" Program will use PDB frames.")
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
     print(" There are {:d} frames to loop over".format(len(coords_to_use)))
-
 
     #   get self_energy
     if True:
@@ -191,3 +237,8 @@ if __name__ == '__main__':
         state = simulation.context.getState(getEnergy=True)
         eng_report.report(simulation, state, total_only=False)
 
+    print("\n Minimizing")
+    minimize.BFGS(simulation.context)
+    opt_state = simulation.context.getState(getPositions=True)
+    eng_report.report(simulation, opt_state)
+    PDBFile.writeFile(topol, opt_state.getPositions(), open('opt_out.pdb', 'w'))
