@@ -4,7 +4,7 @@ from simtk.openmm import openmm as mm
 import simtk.unit as unit
 
 class EnergyReporter(object):
-    PME
+    
     """Custom state reporter to print out energy components of a force field"""
     def __init__(self, interval, system, file=sys.stdout):
         """

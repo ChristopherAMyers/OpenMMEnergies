@@ -14,7 +14,7 @@ from os import environ, path
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
 from InputFileParser import InputFile
-import minimize
+from minimize import BFGS
 from Drude import drude
 
 # pylint: disable=no-member
@@ -134,7 +134,7 @@ def set_self_energies(eng_report, mol):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
-    parser.add_argument('-psf', help='CHARMM PSF topology file', required=True)
+    parser.add_argument('-psf', help='CHARMM PSF topology file')
     parser.add_argument('-xyz', help='XYZ file of coordinate frames to loop over')
     parser.add_argument('-qcin', help='Q-Chem input file with coordantes to use')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
@@ -182,6 +182,7 @@ if __name__ == '__main__':
     integrator = VerletIntegrator(2*femtoseconds)
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
+
 
     #   replace charges in force field with provided charge list
     if args.chg:
@@ -238,7 +239,13 @@ if __name__ == '__main__':
         eng_report.report(simulation, state, total_only=False)
 
     print("\n Minimizing")
-    minimize.BFGS(simulation.context)
+    bfgs = BFGS(simulation.context, out_pdb='opt_out.pdb', topology=topol)
+
+    with open('openmm_opt.pdb', 'w') as opt_file:
+        for n in range(100):
+            PDBFile.writeModel(topol, simulation.context.getState(getPositions=True).getPositions(), file=opt_file, modelIndex=n)
+            simulation.minimizeEnergy(maxIterations=10)
+    #bfgs.minimize()
     opt_state = simulation.context.getState(getPositions=True)
     eng_report.report(simulation, opt_state)
-    PDBFile.writeFile(topol, opt_state.getPositions(), open('opt_out.pdb', 'w'))
+    #PDBFile.writeFile(topol, opt_state.getPositions(), open('opt_out.pdb', 'w'))

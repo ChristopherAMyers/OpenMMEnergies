@@ -24,6 +24,6 @@ def create_system(psf_file):
         if os.path.splitext(file)[-1] == '.str':
             str_files += (os.path.abspath(os.path.join(ff_dir, file)),)
     params = CharmmParameterSet(*str_files)
-    system = psf.createSystem(params,  nonbondedMethod=NoCutoff, nonbondedCutoff=10*nanometer, verbose=True)
+    system = psf.createSystem(params,  nonbondedMethod=CutoffNonPeriodic, nonbondedCutoff=1*nanometer, verbose=True)
 
     return system
