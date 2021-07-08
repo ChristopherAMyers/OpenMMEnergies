@@ -1,5 +1,4 @@
 import numpy as np
-import molFileReader
 import sys
 from math import acos, cos, sin
 
@@ -98,8 +97,6 @@ def rodrigues_rotation(vec, rot_k, angle):
 
 if __name__ == '__main__':\
     #   import Q-Chem input file
-    qc = molFileReader.QC()
-    qc.import_qc(sys.argv[1])
     qm_lines = parse_qc_lines(open(sys.argv[1], 'r').readlines())
 
     #   search for $scan section and assume torsion scan is requested
