@@ -6,6 +6,15 @@ class InputOptions(object):
         Input file with options that control the functionality
         of energy.py. The format follows that of Q-Chem, with
         the $rem section contianing the main progrma options.
+
+        Comments use a ! character, sections start with a $ followed 
+        by a secion title, and all sections conclude with with $end. 
+        For example, the main options section would look like this:
+        
+        $rem
+            optimize True       ! optimize coordinates in pdb file. Only prints energy for first frame.
+            print_eda           ! don't print energy decomposition, only print total energy
+        $end
     '''
     def __init__(self, input_file=None):
         self.density_chg = False
