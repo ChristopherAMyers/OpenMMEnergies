@@ -1,6 +1,8 @@
 # OpenMMEnergies
 Nifty tool for analyzing Force field energies using OpenMM. The main file, energy.py, will loop over any frames in a PDB file and print out its energy components. An .xyz file can be used instead, but the atoms in both the .pdb and .xyz files must align with eachother. If no topology file is provided, the program will use the default AMBER99 force field. 
 
+## Usage
+
 usage: energy.py [-h] -pdb PDB [-psf PSF] [-xyz XYZ] [-qcin QCIN] [-chg CHG]
                  [-top TOP] [-ipt IPT]
 
