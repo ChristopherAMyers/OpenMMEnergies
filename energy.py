@@ -154,7 +154,7 @@ if __name__ == '__main__':
     #exit()
 
     #   replace charges with point nuclei and gaussian electron densities
-    if args.dens:
+    if opts.density_chg:
         altered_forces.gaussian_density(system, topol)
 
     #   for DEBUG only
