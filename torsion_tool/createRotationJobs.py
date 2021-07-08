@@ -165,9 +165,9 @@ if __name__ == '__main__':\
             file.write('$molecule\n')
             charge, mult = qm_lines['molecule'][0]
             file.write('{:3s}{:2s}\n'.format(charge, mult))
-            for n, coord in enumerate(new_coords):
-                file.write("{:2s}  {:15.8f}  {:15.8f}  {:15.8f}\n".format(atoms[n], *tuple(coord)))
-                coord_file.write("{:2s}  {:15.8f}  {:15.8f}  {:15.8f}\n".format(atoms[n], *tuple(coord)))
+            for i, coord in enumerate(new_coords):
+                file.write("{:2s}  {:15.8f}  {:15.8f}  {:15.8f}\n".format(atoms[i], *tuple(coord)))
+                coord_file.write("{:2s}  {:15.8f}  {:15.8f}  {:15.8f}\n".format(atoms[i], *tuple(coord)))
             file.write('$end\n\n')
 
             #   write other Q-Chem sections
@@ -179,7 +179,7 @@ if __name__ == '__main__':\
                 file.write('$end\n\n')
 
             #   flag for consecutive jobs
-            if n != len(angles) - 1:
+            if n < (len(angles) - 1):
                 file.write('\n@@@\n\n')
 
     coord_file.close()
