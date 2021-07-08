@@ -16,6 +16,7 @@ from molFileReader import molFileReader
 from InputFileParser import InputFile
 from minimize import BFGS
 from Drude import drude
+from InputOptions import InputOptions
 
 # pylint: disable=no-member
 import simtk
@@ -116,16 +117,6 @@ def create_system(args, topol):
                 force.addBond(a1.index, a2.index, 1*angstrom, 400000)
 
     return system
-    
-def get_options(input_file=None):
-    parser = InputFile()
-    parser.add_argument('dens',        default=False, help='Replace charges with Gaussian electron densities')
-    parser.add_argument('print_eda',   default=False, help='Print the various energy terms for each frame')
-    parser.add_argument('optimize',    default=False, help='perform optimization on each frame')
-    parser.add_argument('print_force', default=False, help='Print forces along with energies')
-    args = parser.parse_args()
-
-    return args
 
 def set_self_energies(eng_report, mol):
     if not isinstance(mol, molFileReader.QC):
@@ -139,10 +130,11 @@ if __name__ == '__main__':
     parser.add_argument('-qcin', help='Q-Chem input file with coordantes to use')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
-    parser.add_argument('-dens', help='Replace charges with Gaussian electron densities', action='store_true')
+    parser.add_argument('-ipt', help='Input file with options to controll program behavior')
     args = parser.parse_args()
-    opts = get_options()
-    #exit()
+    
+    #   get program options
+    opts = InputOptions(args.ipt)
 
     #   load in pdb and assign atom types
     print(" Loading PDB File")
@@ -210,10 +202,9 @@ if __name__ == '__main__':
         print(" Program will use PDB frames.")
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
-    print(" There are {:d} frames to loop over".format(len(coords_to_use)))
 
     #   get self_energy
-    if True:
+    if False:
         self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()*0.0
         if topol.getNumResidues() == 2:
             pos = copy(pdb.getPositions())
@@ -231,21 +222,24 @@ if __name__ == '__main__':
             print("{:5.2f}  {:12.3f} {:s}".format(x, (energy - self_energy)/energy.unit, str(energy.unit)))
         exit()
 
-    
-    for n, coords in enumerate(coords_to_use):
-        print(" \n Frame {:d}: ".format(n))
-        simulation.context.setPositions(coords)
-        state = simulation.context.getState(getEnergy=True)
-        eng_report.report(simulation, state, total_only=False)
+    if opts.optimize:
+        print(" Minimizing structure")
+        if opts.opt_mode == 'bfgs':
+            bfgs = BFGS(simulation.context, out_pdb='opt_bfgs.pdb', topology=topol)
+            bfgs.minimize()
+        elif opts.opt_mode == 'openmm':
+            with open('opt_openmm.pdb', 'w') as opt_file:
+                for n in range(100):
+                    PDBFile.writeModel(topol, simulation.context.getState(getPositions=True).getPositions(), file=opt_file, modelIndex=n)
+                    simulation.minimizeEnergy(maxIterations=10)
+        opt_state = simulation.context.getState(getPositions=True)
+        print(" Minimized Energy:")
+        eng_report.report(simulation, opt_state)
+    else:
+        print(" There are {:d} frames to loop over".format(len(coords_to_use)))
+        for n, coords in enumerate(coords_to_use):
+            print(" \n Frame {:d}: ".format(n))
+            simulation.context.setPositions(coords)
+            state = simulation.context.getState(getEnergy=True)
+            eng_report.report(simulation, state, total_only=False)
 
-    print("\n Minimizing")
-    bfgs = BFGS(simulation.context, out_pdb='opt_out.pdb', topology=topol)
-
-    with open('openmm_opt.pdb', 'w') as opt_file:
-        for n in range(100):
-            PDBFile.writeModel(topol, simulation.context.getState(getPositions=True).getPositions(), file=opt_file, modelIndex=n)
-            simulation.minimizeEnergy(maxIterations=10)
-    #bfgs.minimize()
-    opt_state = simulation.context.getState(getPositions=True)
-    eng_report.report(simulation, opt_state)
-    #PDBFile.writeFile(topol, opt_state.getPositions(), open('opt_out.pdb', 'w'))

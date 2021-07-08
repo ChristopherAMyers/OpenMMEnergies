@@ -6,7 +6,7 @@ import simtk.unit as unit
 class EnergyReporter(object):
     
     """Custom state reporter to print out energy components of a force field"""
-    def __init__(self, interval, system, file=sys.stdout):
+    def __init__(self, interval, system, file=sys.stdout, print_eda=True):
         """
             Create the EnergyReporter
 
@@ -39,6 +39,7 @@ class EnergyReporter(object):
             mm.CustomTorsionForce: "Custom Torsion"
         }
         self._energy_terms = {}
+        self.print_eda = print_eda
 
     def __del__(self):
         self._out.close()
@@ -90,7 +91,7 @@ class EnergyReporter(object):
             total_only: bool
                 Whether or not to print only the total energy and skip decomposition
         """
-        if not total_only:
+        if self.print_eda:
             print("")
             print(" --------------------------------------- ")
             print("          Energy Decomposition           ")
