@@ -1,6 +1,5 @@
 from scipy import optimize
 from simtk.openmm.app.pdbfile import PDBFile
-from simtk.openmm.openmm import Context_swigregister
 from simtk.unit import *
 import numpy as np
 
