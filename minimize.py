@@ -6,7 +6,6 @@ import numpy as np
 
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
-from InputFileParser import InputFile
 
 # pylint: disable=no-member
 import simtk

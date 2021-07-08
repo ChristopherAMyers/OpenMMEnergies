@@ -13,7 +13,6 @@ from os import environ, path
 
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
-from InputFileParser import InputFile
 from minimize import BFGS
 from Drude import drude
 from InputOptions import InputOptions
