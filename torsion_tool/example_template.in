@@ -2,7 +2,8 @@ $rem
     jobtype sp
     frozen_scan true
     method PBE0
-    basis   pc-1
+    dft_d   d3
+    basis   pc-2
     sym_ignore  true
 $end
 
