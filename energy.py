@@ -223,9 +223,19 @@ if __name__ == '__main__':
     if opts.optimize:
         print(" Minimizing structure")
 
-        # if opts.opt_freeze_main:
-        #     for n, atom in enumerate(topol.atoms()):
-        #         if atom.name[0] != 
+        
+        if opts.opt_freeze_main:
+            print(" Freezing main particles")
+            for n, atom in enumerate(topol.atoms()):
+                if atom.name[0] != 'D':
+                    system.setParticleMass(atom.index, 0*dalton)
+        if opts.opt_freeze_drude:
+            print(" Freezing Drude particles")
+            for n, atom in enumerate(topol.atoms()):
+                if atom.name[0] == 'D':
+                    print(atom)
+                    system.setParticleMass(atom.index, 0*dalton)
+
 
         if opts.opt_mode == 'bfgs':
             bfgs = BFGS(simulation.context, out_pdb='opt_bfgs.pdb', topology=topol)
