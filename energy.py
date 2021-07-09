@@ -174,7 +174,6 @@ if __name__ == '__main__':
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
 
-
     #   replace charges in force field with provided charge list
     if args.chg:
         print(" Replacing force field charges with provided charge file")
@@ -223,6 +222,11 @@ if __name__ == '__main__':
 
     if opts.optimize:
         print(" Minimizing structure")
+
+        # if opts.opt_freeze_main:
+        #     for n, atom in enumerate(topol.atoms()):
+        #         if atom.name[0] != 
+
         if opts.opt_mode == 'bfgs':
             bfgs = BFGS(simulation.context, out_pdb='opt_bfgs.pdb', topology=topol)
             bfgs.minimize()

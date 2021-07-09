@@ -22,6 +22,8 @@ class InputOptions(object):
         self.print_eda = True
         self.print_forces = False
         self.opt_mode = 'openmm'
+        self.opt_freeze_main = False
+        self.opt_freeze_drude = False
 
         #   not implimented yet
         self.frag_opt = False
@@ -58,13 +60,15 @@ class InputOptions(object):
         for line in input_file['rem']:
             option = line[0].loweR()
             value = line[1].lower()
-            if option == 'density_charge':      self.density_chg = strtobool(value)
-            if option == 'optimize':            self.optimize = strtobool(value)
-            if option == 'print_eda':           self.print_eda = strtobool(value)
-            if option == 'frag_opt':            self.frag_opt = strtobool(value)
+            if option == 'density_charge':              self.density_chg = strtobool(value)
+            if option == 'optimize':                    self.optimize = strtobool(value)
+            if option == 'print_eda':                   self.print_eda = strtobool(value)
+            if option == 'frag_opt':                    self.frag_opt = strtobool(value)
+            if option == 'opt_freeze_main':             self.frag_opt = strtobool(value)
+            if option == 'opt_freeze_drude':            self.frag_opt = strtobool(value)
             if option == 'opt_mode':
-                if value == 'openmm':           self.opt_mode = 'openmm'
-                elif value == 'bfgs':           self.opt_mode = 'bfgs'
+                if value == 'openmm':                   self.opt_mode = 'openmm'
+                elif value == 'bfgs':                   self.opt_mode = 'bfgs'
                 else:
                     raise ValueError('Invalid value for rem option "opt_mode"')
 
