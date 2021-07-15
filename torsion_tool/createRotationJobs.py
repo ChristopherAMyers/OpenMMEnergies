@@ -117,9 +117,9 @@ if __name__ == '__main__':\
     atoms = np.array([np.array(x[0]) for x in qm_lines['molecule'][1:] ])
     idx_i, idx_j, idx_k, idx_l = idx_numbers
     init_angle = get_torsion_angle(coords[idx_i], coords[idx_j], coords[idx_k], coords[idx_l])*180/np.pi
-    
     print("\n Initial torsion angle: {:8.2f} degrees".format(init_angle))
-    
+
+
     #   atoms will be rotated about this vector direction
     rot_vec = coords[idx_k] - coords[idx_j]
     rot_vec /= np.linalg.norm(rot_vec)
@@ -138,7 +138,7 @@ if __name__ == '__main__':\
             new_coords = np.copy(coords) - coords[idx_j]
             #   rotate the specified atoms 
             for idx in scan_idx_list:
-                new_angle = (angle - init_angle)*np.pi/180.0
+                new_angle = (angle - np.sign(init_angle)*init_angle)*np.pi/180.0
                 new_coords[idx] = rodrigues_rotation(new_coords[idx], rot_vec, new_angle)
             #   put back to original center
             new_coords += coords[idx_j]
