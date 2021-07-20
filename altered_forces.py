@@ -29,12 +29,14 @@ def gaussian_density(system, topology, remove_nbf=True):
             nb_force_idx = n
             break
 
-    forceString = "4*epsilon*((sigma/r)^12 - (sigma/r)^6) "
-    forceString += " + 138.935458*q1*q2/r; "
+    forceString = "4*epsilon*((sigma/r)^8 - (sigma/r)^6) "
+    #forceString += " + 138.935458*q1*q2/r; "
     #forceString += " + 138.935458*q1*q2*erf(alpha*r)/r; "
-    #forceString += " + 138.935458*( (Z1-q1)*(Z2-q2)*erf(alpha*r)/r - (Z1-q1)*Z2*erf(sqrt(a1)*r)/r - (Z2-q2)*Z1*erf(sqrt(a2)*r)/r + Z1*Z2/r ); "
-    forceString += "sigma=0.5*(sigma1+sigma2); "
-    forceString += "epsilon=sqrt(epsilon1*epsilon2); "
+    forceString += " + 138.935458*( (Z1-q1)*(Z2-q2)*erf(alpha*r)/r - (Z1-q1)*Z2*erf(sqrt(a1)*r)/r - (Z2-q2)*Z1*erf(sqrt(a2)*r)/r + Z1*Z2/r ); "
+    #forceString += "sigma=0.5*(sigma1+sigma2); "
+    #forceString += "epsilon=sqrt(epsilon1*epsilon2); "
+    forceString += "sigma=0.5*(sigma1+sigma2)*0.866025; "
+    forceString += "epsilon=sqrt(epsilon1*epsilon2)*2.37037 ; "
     forceString += "alpha = sqrt(a1*a2/(a1+a2)); "
     custom_force = CustomNonbondedForce(forceString)
     custom_force.addPerParticleParameter("q")
@@ -59,15 +61,17 @@ def gaussian_density(system, topology, remove_nbf=True):
         sigma.append(params[1])
         epsilon.append(params[2])
         z = int(atom.element.atomic_number)
-        alpha = Z2alpha.get(z, 1.00)*(18.8973**2)*200 #   convert to 1/nm^2
+        alpha = Z2alpha.get(z, 1.00)*(18.8973**2)*0.8 #   convert to 1/nm^2
         total_charge += ff_charge[n]
+        if z > 1:
+            #sigma[n]*= 1.085
+            sigma[n]*= 1.333
+            epsilon[n] *= 1.0
         custom_force.addParticle([ff_charge[n], sigma[n], epsilon[n], z, alpha])
 
     bonds = []
     for bond in topology.bonds():
         bond_idx = (bond.atom1.index, bond.atom2.index)
-        if -1 in bond_idx or 15 in bond_idx:
-            print(bond_idx, bond) 
         bonds.append(bond_idx)
     custom_force.createExclusionsFromBonds(bonds, 3)
     custom_force.setCutoffDistance(2*nanometer)

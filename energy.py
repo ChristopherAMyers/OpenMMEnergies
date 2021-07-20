@@ -1,13 +1,13 @@
-import re
+#!/usr/bin/env python3
 from simtk.openmm.app import *
 from simtk.openmm import *
-from simtk.openmm.openmm import CustomNonbondedForce, Integrator, VerletIntegrator, NonbondedForce
+from simtk.openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite
 #from simtk.openmm.openmm import *
 from simtk.unit import *
 from simtk.openmm.app import element
 import argparse
 import numpy as np
-from copy import copy
+from copy import copy, deepcopy
 import altered_forces
 from os import environ, path
 
@@ -16,6 +16,7 @@ from molFileReader import molFileReader
 from minimize import BFGS
 from Drude import drude
 from InputOptions import InputOptions
+
 
 # pylint: disable=no-member
 import simtk
@@ -112,7 +113,7 @@ def create_system(args, topol):
             top_bond = tuple(sorted([a1.index, a2.index]))
             if top_bond not in force_bonds and \
             (a1.element is element.hydrogen or a2.element is element.hydrogen):
-                print("Adding bond: ", bond)
+                print("Adding H-bond: ", bond)
                 force.addBond(a1.index, a2.index, 1*angstrom, 400000)
 
     return system
@@ -130,6 +131,7 @@ if __name__ == '__main__':
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
     parser.add_argument('-ipt', help='Input file with options to controll program behavior')
+    
     args = parser.parse_args()
     
     #   get program options
@@ -147,14 +149,15 @@ if __name__ == '__main__':
 
     #   create system object. This holds the forces used
     if args.psf:
+        print(" Creating Drude System")
         system = drude.create_system(args.psf)
     else:
+        print(" Creating System")
         system = create_system(args, topol)
-    
-    #exit()
 
     #   replace charges with point nuclei and gaussian electron densities
     if opts.density_chg:
+        print(" Using density charges")
         altered_forces.gaussian_density(system, topol)
 
     #   for DEBUG only
@@ -173,6 +176,8 @@ if __name__ == '__main__':
     integrator = VerletIntegrator(2*femtoseconds)
     simulation = Simulation(topol, system, integrator)
     simulation.context.setPositions(pdb.getPositions())
+
+    #exit()
 
     #   replace charges in force field with provided charge list
     if args.chg:
@@ -201,37 +206,29 @@ if __name__ == '__main__':
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
 
-    #   get self_energy
     if False:
-        self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()*0.0
-        if topol.getNumResidues() == 2:
-            pos = copy(pdb.getPositions())
-            for atom in list(topol.residues())[1].atoms():
-                pos[atom.index] += Vec3(10, 0, 0)*nanometer
-            simulation.context.setPositions(pos)
-            self_energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-    
-    if False:
-        for x in np.arange(-0.5, 2.5, 0.1):
-            pos = np.copy(pdb.getPositions(True)/angstrom)*angstrom
-            pos[15:] += np.array([x, 0, 0])*angstroms
-            simulation.context.setPositions(pos)
-            energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-            print("{:5.2f}  {:12.3f} {:s}".format(x, (energy - self_energy)/energy.unit, str(energy.unit)))
-        exit()
+        try:
+            import debug      
+        except:
+            print("FAIL")
+            pass
+        else:
+            debug.drude(system, simulation, topol)
+            #debug.pull(topol, simulation, pdb)
+        
 
     if opts.optimize:
         print(" Minimizing structure")
-
-        
         if opts.opt_freeze_main:
             print(" Freezing main particles")
             for n, atom in enumerate(topol.atoms()):
+                #if 'POT' in atom.name: continue
                 if atom.name[0] != 'D':
                     system.setParticleMass(atom.index, 0*dalton)
         if opts.opt_freeze_drude:
             print(" Freezing Drude particles")
             for n, atom in enumerate(topol.atoms()):
+                #if 'POT' in atom.name: continue
                 if atom.name[0] == 'D':
                     print(atom)
                     system.setParticleMass(atom.index, 0*dalton)
@@ -244,7 +241,7 @@ if __name__ == '__main__':
             with open('opt_openmm.pdb', 'w') as opt_file:
                 for n in range(100):
                     PDBFile.writeModel(topol, simulation.context.getState(getPositions=True).getPositions(), file=opt_file, modelIndex=n)
-                    simulation.minimizeEnergy(maxIterations=10)
+                    simulation.minimizeEnergy(maxIterations=5)
         opt_state = simulation.context.getState(getPositions=True)
         print(" Minimized Energy:")
         eng_report.report(simulation, opt_state)
@@ -255,4 +252,5 @@ if __name__ == '__main__':
             simulation.context.setPositions(coords)
             state = simulation.context.getState(getEnergy=True)
             eng_report.report(simulation, state, total_only=False)
+
 
