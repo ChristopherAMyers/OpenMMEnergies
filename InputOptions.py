@@ -60,7 +60,7 @@ class InputOptions(object):
         for line in input_lines['rem']:
             option = line[0].lower()
             value = line[1].lower()
-            if option == 'density_charge':              self.density_chg = strtobool(value)
+            if option == 'density_chg':                 self.density_chg = strtobool(value)
             if option == 'optimize':                    self.optimize = strtobool(value)
             if option == 'print_eda':                   self.print_eda = strtobool(value)
             if option == 'frag_opt':                    self.frag_opt = strtobool(value)
