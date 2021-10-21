@@ -206,14 +206,17 @@ if __name__ == '__main__':
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
 
-    if False:
+    if True:
         try:
             import debug      
         except:
             print("FAIL")
             pass
         else:
-            debug.drude(system, simulation, topol)
+            psf = CharmmPsfFile(args.psf)
+            debug.write_psf_xml(system, topol, psf)
+            exit()
+            #debug.drude(system, simulation, topol)
             #debug.pull(topol, simulation, pdb)
         
 
