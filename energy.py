@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from simtk.openmm.app import *
 from simtk.openmm import *
-from simtk.openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite
+from simtk.openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite, HarmonicBondForce
 #from simtk.openmm.openmm import *
 from simtk.unit import *
 from simtk.openmm.app import element
@@ -83,27 +83,35 @@ def create_system(args, topol):
         top = GromacsTopFile(args.top, includeDir=inc_dir)
         system = top.createSystem(nonbondedCutoff=2*nanometer)
     else:
-        print(" Using Amber99 as default forcefield")
-        amber = ForceField('amber99sb.xml')
-        [templates, residues] = amber.generateTemplatesForUnmatchedResidues(topol)
-        for n, template in enumerate(templates):
-            amber_template = amber._templates[template.name]
-            for atom in template.atoms:
-                for amber_atom in amber_template.atoms:
-                    if amber_atom.name == atom.name:
-                        atom.type = amber_atom.type
-                        break
-                    if atom.type == None:
-                        atom.type = '1581' # RA-H8
+        if args.xml is not None:
+            xml_file = args.xml
+            print(" Using included .xml file for the forcefield")
+        else:
+            xml_file = 'amber99sb.xml'
+            print(" Using Amber99 as default forcefield")
+        amber = ForceField(xml_file)
+        # [templates, residues] = amber.generateTemplatesForUnmatchedResidues(topol)
+        # for n, template in enumerate(templates):
+        #     amber_template = amber._templates[template.name]
+        #     for atom in template.atoms:
+        #         print(atom.name)
+        #     for atom in template.atoms:
+        #         for amber_atom in amber_template.atoms:
+        #             if amber_atom.name == atom.name:
+        #                 atom.type = amber_atom.type
+        #                 break
+        #             if atom.type == None:
+        #                 atom.type = '1581' # RA-H8
 
-            template.name = str(n) + template.name   
-            amber.registerResidueTemplate(template)
+        #     template.name = str(n) + template.name   
+        #     amber.registerResidueTemplate(template)
 
         
         system = amber.createSystem(topol, nonbondedCutoff=4*nanometer, constraints=None)
         
         #   make sure that all h-bonds have a bond force. This is needed when using bond constraints
-        force = system.getForce(0)
+        #force = system.getForce(0)
+        force = [f for f in system.getForces() if isinstance(f, HarmonicBondForce)][0]
         force_bonds = []
         for n in range(force.getNumBonds()):
             force_bonds.append(tuple(sorted(force.getBondParameters(n)[0:2])))
@@ -113,8 +121,9 @@ def create_system(args, topol):
             top_bond = tuple(sorted([a1.index, a2.index]))
             if top_bond not in force_bonds and \
             (a1.element is element.hydrogen or a2.element is element.hydrogen):
-                print("Adding H-bond: ", bond)
+                print("     * Adding H-bond: ", bond)
                 force.addBond(a1.index, a2.index, 1*angstrom, 400000)
+                force_bonds.append(top_bond)
 
     return system
 
@@ -130,8 +139,8 @@ if __name__ == '__main__':
     parser.add_argument('-qcin', help='Q-Chem input file with coordantes to use')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
     parser.add_argument('-top', help='Gromacs topology file with force field info')
+    parser.add_argument('-xml', help='OpenMM Force Field XML file to use')
     parser.add_argument('-ipt', help='Input file with options to controll program behavior')
-    
     args = parser.parse_args()
     
     #   get program options
@@ -206,7 +215,7 @@ if __name__ == '__main__':
         for n in range(pdb.getNumFrames()):
             coords_to_use.append(pdb.getPositions(asNumpy=True, frame=n))
 
-    if True:
+    if False:
         try:
             import debug      
         except:

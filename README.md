@@ -15,6 +15,7 @@ optional arguments:
   -qcin QCIN  Q-Chem input file with coordantes to use
   -chg CHG    Supplimental column of charges to use
   -top TOP    Gromacs topology file with force field info
+  -xml XML    OpenMM Force Field XML file to use
   -ipt IPT    Input file with options to controll program behavior
   ```
 
