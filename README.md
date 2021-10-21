@@ -19,7 +19,7 @@ optional arguments:
   -ipt IPT    Input file with options to controll program behavior
   ```
 
-## Usage
+## Input File
 The optional input file uses a Q-Chem format where each input section starts with `$section` and ends with `$end`. For example, the main options section , `$rem`, with their default values applied would look something like this:
 
 ```
