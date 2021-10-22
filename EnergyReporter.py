@@ -6,7 +6,7 @@ import simtk.unit as unit
 class EnergyReporter(object):
     
     """Custom state reporter to print out energy components of a force field"""
-    def __init__(self, interval, system, file=sys.stdout, print_eda=True):
+    def __init__(self, interval, system, file=sys.stdout, print_eda=True, nonbonded_eda=False):
         """
             Create the EnergyReporter
 
@@ -24,7 +24,7 @@ class EnergyReporter(object):
         else:
             self._out = file
         self._interval = int(interval)
-        self._force_gorups = self._get_force_groups(system)
+        self._force_groups = self._get_force_groups(system)
         self._type2name = { 
             mm.HarmonicBondForce: "Bond",
             mm.HarmonicAngleForce: "Angle",
@@ -39,7 +39,17 @@ class EnergyReporter(object):
             mm.CustomTorsionForce: "Custom Torsion"
         }
         self._energy_terms = {}
-        self.print_eda = print_eda
+        self._print_eda = print_eda
+        self._nonbonded_eda = nonbonded_eda
+
+        self._glob2name = {
+            'EDA_chg': 'Electrostatic',
+            'EDA_pauli': 'Pauli 12 power',
+            'EDA_disp': 'Dispersion',
+            'EDA_chg_14': 'Electrostatic 1-4',
+            'EDA_pauli_14': 'Pauli 12 power 1-4',
+            'EDA_disp_14': 'Dispersion 1-4',
+        }
 
     def __del__(self):
         self._out.close()
@@ -91,30 +101,50 @@ class EnergyReporter(object):
             total_only: bool
                 Whether or not to print only the total energy and skip decomposition
         """
-        if self.print_eda:
+        if self._print_eda and state is not None:
             print("")
-            print(" --------------------------------------- ")
-            print("          Energy Decomposition           ")
-            print(" --------------------------------------- ")
+            print(" --------------------------------------------- ")
+            print("             Energy Decomposition              ")
+            print(" --------------------------------------------- ")
             total = 0 * unit.kilojoule_per_mole
-            for f, i in self._force_gorups.items():
+            for f, i in self._force_groups.items():
                 energy = simulation.context.getState(getEnergy=True, groups=2**i).getPotentialEnergy()
                 energy_type = self._type2name.get(type(f), str(f))
+                
+                #energy_type = self._force_labels[f]
                 self._energy_terms[energy_type] = energy
-                print(" {:16} {:15.3f} kJ/mol".format(energy_type, energy/unit.kilojoule_per_mole))
+                print(" {:22} {:15.3f} kJ/mol".format(energy_type, energy/unit.kilojoule_per_mole))
                 total += energy
-
 
                 # forces = simulation.context.getState(getForces=True, groups=2**i).getForces()
                 # for n, force in enumerate(forces):
                 #     print(n, force)
 
-            print(" --------------------------------------- ")
         try:
             total = state.getPotentialEnergy()
         except:
             total = simulation.context.getState(getEnergy=True).getPotentialEnergy()
-        
-        print(" {:16} {:15.3f} kJ/mol".format("Total energy", total/unit.kilojoule_per_mole))
+
+        print(" --------------------------------------------- ")
+        print(" {:22} {:15.3f} kJ/mol".format("Total energy", total/unit.kilojoule_per_mole))
+        print(" --------------------------------------------- ")
+
+        if self._nonbonded_eda:
+            state = simulation.context.getState(getParameterDerivatives=True)
+            param_derivs = state.getEnergyParameterDerivatives().asdict()
+            total = 0
+            print("")
+            print(" --------------------------------------------- ")
+            print("        Nonbonded Energy Decomposition         ")
+            print(" --------------------------------------------- ")
+            for key, value in param_derivs.items():
+                energy_type = self._glob2name.get(key, key)
+                print(" {:22} {:15.3f} kJ/mol".format(energy_type, value))
+                total += value
+
+            print(" --------------------------------------------- ")
+            print(" {:22} {:15.3f} kJ/mol".format("Total Nonbonded energy", total))
+            print(" --------------------------------------------- ")
+
 
 

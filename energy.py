@@ -16,6 +16,7 @@ from molFileReader import molFileReader
 from minimize import BFGS
 from Drude import drude
 from InputOptions import InputOptions
+from Nonbonded import *
 
 
 # pylint: disable=no-member
@@ -178,7 +179,9 @@ if __name__ == '__main__':
                 break
 
     #   set up custom energy reporter
-    eng_report = EnergyReporter(1, system)
+    if opts.nonbonded_eda:
+        create_decomposed_forces(system)
+    eng_report = EnergyReporter(1, system, nonbonded_eda=opts.nonbonded_eda)
 
     #   set up integrator and simulation objects
     #   integrator is not actually used
@@ -227,6 +230,8 @@ if __name__ == '__main__':
             exit()
             #debug.drude(system, simulation, topol)
             #debug.pull(topol, simulation, pdb)
+    
+    
         
 
     if opts.optimize:
@@ -259,6 +264,8 @@ if __name__ == '__main__':
         eng_report.report(simulation, opt_state)
     else:
         print(" There are {:d} frames to loop over".format(len(coords_to_use)))
+
+
         for n, coords in enumerate(coords_to_use):
             print(" \n Frame {:d}: ".format(n))
             simulation.context.setPositions(coords)
