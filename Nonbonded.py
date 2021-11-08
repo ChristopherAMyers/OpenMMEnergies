@@ -56,12 +56,12 @@ def create_decomposed_forces(system):
     disp_except_force.addEnergyParameterDerivative('EDA_disp_14')
     disp_except_force.addEnergyParameterDerivative('EDA_pauli_14')
     
-    unity_particle_group = []
+    total_charge = 0
     for n in range(nbforce.getNumParticles()):
         chg, sigma, eps = orig_params[n]
         disp_force.addParticle([sigma, eps])
         chg_force.addParticle([chg])
-        unity_particle_group.append(n)
+        total_charge += chg/unit.elementary_charge
 
     for exception in orig_exceptions:
         p1, p2, chg_prod, sigma, eps = exception
@@ -77,8 +77,4 @@ def create_decomposed_forces(system):
     system.addForce(disp_force)
     system.addForce(chg_except_force)
     system.addForce(disp_except_force)
-
-
-
-
-    
+    print("Total charge: ", total_charge)
