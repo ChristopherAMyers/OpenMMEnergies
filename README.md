@@ -24,6 +24,7 @@ The optional input file uses a Q-Chem format where each input section starts wit
 
 ```
 $rem
+  nonbonded_eda       False     ! energy decomposition analysis for nonbonded interactions
   optimize            False     ! optimize structure first; uses only the first frame of PDB coords
   print_eda           True      ! print energy decomposition
   print_forces        False     ! print forces too (not implimented yet)
