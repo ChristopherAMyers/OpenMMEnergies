@@ -1,7 +1,7 @@
 import sys
-from simtk.openmm.app.forcefield import CMAPTorsion, CustomTorsion, PME
-from simtk.openmm import openmm as mm
-import simtk.unit as unit
+from openmm.app.forcefield import CMAPTorsion, CustomTorsion, PME
+from openmm import openmm as mm
+import openmm.unit as unit
 
 class EnergyReporter(object):
     

@@ -1,7 +1,7 @@
-import simtk.unit as unit
-from simtk.openmm.openmm import CustomBondForce, CustomNonbondedForce, NonbondedForce
+import openmm.unit as unit
+from openmm.openmm import CustomBondForce, CustomNonbondedForce, NonbondedForce
 from copy import deepcopy
-from simtk.unit.quantity import Quantity
+from openmm.unit.quantity import Quantity
 from math import sqrt
 
 def create_decomposed_forces(system):

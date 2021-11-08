@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk.openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite, HarmonicBondForce
-#from simtk.openmm.openmm import *
-from simtk.unit import *
-from simtk.openmm.app import element
+from openmm.app import *
+from openmm import *
+from openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite, HarmonicBondForce
+from openmm.unit import *
+from openmm.app import element
 import argparse
 import numpy as np
 from copy import copy, deepcopy
@@ -20,11 +19,11 @@ from Nonbonded import *
 
 
 # pylint: disable=no-member
-import simtk
-picoseconds = simtk.unit.picoseconds
+import openmm
+picoseconds = openmm.unit.picoseconds
 picosecond = picoseconds
-nanometer = simtk.unit.nanometer
-femtoseconds = simtk.unit.femtoseconds
+nanometer = openmm.unit.nanometer
+femtoseconds = openmm.unit.femtoseconds
 # pylint: enable=no-member
 
 def assign_charges(chg_file, system, topology, simulation):

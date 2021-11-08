@@ -1,14 +1,14 @@
 import numpy as np
-from simtk.openmm.app import *
-from simtk.unit import *
-from simtk.openmm.openmm import CustomNonbondedForce, NonbondedForce, CustomBondForce
+from openmm.app import *
+from openmm.unit import *
+from openmm.openmm import CustomNonbondedForce, NonbondedForce, CustomBondForce
 
 # pylint: disable=no-member
-import simtk
-picoseconds = simtk.unit.picoseconds
+import openmm
+picoseconds = openmm.unit.picoseconds
 picosecond = picoseconds
-nanometer = simtk.unit.nanometer
-femtoseconds = simtk.unit.femtoseconds
+nanometer = openmm.unit.nanometer
+femtoseconds = openmm.unit.femtoseconds
 # pylint: enable=no-member
 
 Z2alpha = {

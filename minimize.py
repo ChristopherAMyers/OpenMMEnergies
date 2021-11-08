@@ -1,17 +1,17 @@
 from scipy import optimize
-from simtk.openmm.app.pdbfile import PDBFile
-from simtk.unit import *
+from openmm.app.pdbfile import PDBFile
+from openmm.unit import *
 import numpy as np
 
 from EnergyReporter import EnergyReporter
 from molFileReader import molFileReader
 
 # pylint: disable=no-member
-import simtk
-picoseconds = simtk.unit.picoseconds
+import openmm
+picoseconds = openmm.unit.picoseconds
 picosecond = picoseconds
-nanometer = simtk.unit.nanometer
-femtoseconds = simtk.unit.femtoseconds
+nanometer = openmm.unit.nanometer
+femtoseconds = openmm.unit.femtoseconds
 # pylint: enable=no-member
 
 constr_2_idx = {

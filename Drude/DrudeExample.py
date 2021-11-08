@@ -1,19 +1,19 @@
 #!/usr/bin/python 
  
-from simtk import openmm as mm 
-from simtk.openmm import app
-from simtk.openmm.app import forcefield as ff
-from simtk.unit import * 
+import openmm as mm 
+from openmm.openmm import app
+from openmm.app import forcefield as ff
+from openmm.unit import * 
 from sys import stdout, exit, stderr, argv
 from os import path
 #from drudeutility import * 
 
 # pylint: disable=no-member
-import simtk
-picoseconds = simtk.unit.picoseconds
+import openmm
+picoseconds = openmm.unit.picoseconds
 picosecond = picoseconds
-nanometer = simtk.unit.nanometer
-femtoseconds = simtk.unit.femtoseconds
+nanometer = openmm.unit.nanometer
+femtoseconds = openmm.unit.femtoseconds
 # pylint: enable=no-member
  
 jobname=argv[1]
