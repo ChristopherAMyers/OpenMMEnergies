@@ -3,7 +3,7 @@ from openmm.app import *
 from openmm import *
 from openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite, HarmonicBondForce
 from openmm.unit import *
-from simtk.openmm.app import element
+from openmm.app import element
 import argparse
 import numpy as np
 from copy import copy, deepcopy
@@ -180,15 +180,13 @@ if __name__ == '__main__':
 
     #   set up custom energy reporter
     if opts.nonbonded_eda:
-        create_decomposed_forces(system)
+        create_decomposed_forces(system, topol=topol, exclude_self=opts.nonbonded_res_only)
     eng_report = EnergyReporter(1, system, nonbonded_eda=opts.nonbonded_eda)
 
     #   set up integrator and simulation objects
     #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
-    print("HERE")
     simulation = Simulation(topol, system, integrator)
-    print("HERE")
     simulation.context.setPositions(pdb.getPositions())
     #exit()
 
@@ -232,9 +230,6 @@ if __name__ == '__main__':
             #debug.drude(system, simulation, topol)
             #debug.pull(topol, simulation, pdb)
     
-    
-        
-
     if opts.optimize:
         print(" Minimizing structure")
         if opts.opt_freeze_main:
@@ -265,8 +260,6 @@ if __name__ == '__main__':
         eng_report.report(simulation, opt_state)
     else:
         print(" There are {:d} frames to loop over".format(len(coords_to_use)))
-
-
         for n, coords in enumerate(coords_to_use):
             print(" \n Frame {:d}: ".format(n))
             simulation.context.setPositions(coords)

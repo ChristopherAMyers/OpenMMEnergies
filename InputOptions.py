@@ -25,6 +25,7 @@ class InputOptions(object):
         self.opt_freeze_main = False
         self.opt_freeze_drude = False
         self.nonbonded_eda = False
+        self.nonbonded_res_only = False
 
         #   not implimented yet
         self.frag_opt = False
@@ -62,6 +63,7 @@ class InputOptions(object):
             option = line[0].lower()
             value = line[1].lower()
             if option == 'nonbonded_eda':               self.nonbonded_eda = strtobool(value)
+            if option == 'nonbonded_res_only':          self.nonbonded_res_only = strtobool(value)
             if option == 'density_chg':                 self.density_chg = strtobool(value)
             if option == 'optimize':                    self.optimize = strtobool(value)
             if option == 'print_eda':                   self.print_eda = strtobool(value)
