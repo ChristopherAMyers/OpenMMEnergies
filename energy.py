@@ -3,7 +3,7 @@ from openmm.app import *
 from openmm import *
 from openmm.openmm import CustomNonbondedForce, Integrator, RBTorsionForce, VerletIntegrator, NonbondedForce, VirtualSite, HarmonicBondForce
 from openmm.unit import *
-from openmm.app import element
+from simtk.openmm.app import element
 import argparse
 import numpy as np
 from copy import copy, deepcopy
@@ -176,6 +176,7 @@ if __name__ == '__main__':
             if not isinstance(force, PeriodicTorsionForce):
                 system.removeForce(i)
                 break
+            
 
     #   set up custom energy reporter
     if opts.nonbonded_eda:
@@ -185,9 +186,10 @@ if __name__ == '__main__':
     #   set up integrator and simulation objects
     #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
+    print("HERE")
     simulation = Simulation(topol, system, integrator)
+    print("HERE")
     simulation.context.setPositions(pdb.getPositions())
-
     #exit()
 
     #   replace charges in force field with provided charge list
