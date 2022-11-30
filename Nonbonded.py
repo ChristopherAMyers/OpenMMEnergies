@@ -1,10 +1,36 @@
 import openmm.unit as unit
 from openmm.openmm import CustomBondForce, CustomNonbondedForce, NonbondedForce
-from copy import deepcopy
-from openmm.unit.quantity import Quantity
-from math import sqrt
+from itertools import combinations
 
-def create_decomposed_forces(system, topol=None, exclude_self=False):
+def determine_fragment_index(topol, res_ids):
+    fragment_index_list = []
+
+    #   first make a dictionary to map residue id to it's Residue object
+    residues = {}
+    for res in topol.residues():
+        residues[int(res.id)] = res
+
+    #   now grab the atom index for all atoms in each fragment
+    for name, id_list in res_ids.items():
+        index_list = []
+        for res_id in id_list:
+            for atom in residues[res_id].atoms():
+                index_list.append(atom.index)
+        fragment_index_list.append(tuple(index_list))
+    
+    #   print summary
+    print("\n A fragment interaction calculation has been requested for {:d} fragments".format(len(res_ids)))
+    print(" ---------------------------------------------")
+    for i, (name, res_list) in enumerate(res_ids.items()):
+        print(" Fragment {:d}".format(i + 1))
+        print("     Name:          {:s}".format(name))
+        print("     Num. Residues: {:d}".format(len(res_list)))
+        print("     Num. Atoms:    {:d}".format(len(fragment_index_list[i])))
+    print(" ---------------------------------------------\n")
+
+    return fragment_index_list
+
+def create_decomposed_forces(system, topol=None, exclude_self=False, fragments=None):
     ''' Replace Nonbonded Force with separate forces for electrostatics
         and Lennard-Jones. This will add global parameter derivatives for 
         each interaction type. Each global parameter starts with the "EDA_"
@@ -27,7 +53,12 @@ def create_decomposed_forces(system, topol=None, exclude_self=False):
     exceptions = [nbforce.getExceptionParameters(n) for n in range(nbforce.getNumExceptions())]
     exception_pairs = [(min(x[0:2]), max(x[0:2])) for x in exceptions]
 
+    #   determine if fragments should be used
+    fragment_index_list = {}
+    if topol is not None and fragments is not None:
+        fragment_index_list = determine_fragment_index(topol, fragments)
 
+    print("\n Interaction energy decomposition is requested")
 
     #   add new force using same interaction terms
     chg_energy_str = "EDA_chg*138.935458*chg1*chg2/r;"
@@ -82,22 +113,39 @@ def create_decomposed_forces(system, topol=None, exclude_self=False):
                     else:
                         except_idx = exception_pairs.index(pair)
                         exceptions[except_idx] = exception
-                        
-                    #chg_force.addExclusion(atom1.index, atom2.index)
-                    #disp_force.addExclusion(atom1.index, atom2.index)
 
     #   add the exceptions
     for exception in exceptions:
         p1, p2, chg_prod, sigma, eps = exception
-        chg_except_force.addBond(p1, p2, [chg_prod])
-        disp_except_force.addBond(p1, p2, [sigma, eps])
 
-        chg_force.addExclusion(p1, p2)
-        disp_force.addExclusion(p1, p2)
+        #   only update forces if there are no fragments being used
+        #   or if each exception bemong to different fragments
+        add_to_force = True
+        if len(fragment_index_list) != 0:
+            p1_frag = -1
+            p2_frag = -1
+            for i, index_list in enumerate(fragment_index_list):
+                if p1 in index_list:
+                    p1_frag = i
+                if p2 in index_list:
+                    p2_frag = i
+            if p1_frag == p2_frag:
+                add_to_force = False
+
+        if add_to_force:
+            chg_except_force.addBond(p1, p2, [chg_prod])
+            disp_except_force.addBond(p1, p2, [sigma, eps])
+            chg_force.addExclusion(p1, p2)
+            disp_force.addExclusion(p1, p2)
+
+    if len(fragment_index_list) != 0:
+        for p1, p2 in combinations(range(len(fragment_index_list)), 2):
+            chg_force.addInteractionGroup(fragment_index_list[p1], fragment_index_list[p2])
+            disp_force.addInteractionGroup(fragment_index_list[p1], fragment_index_list[p2])
 
     system.removeForce(nbd_force_idx)
     system.addForce(chg_force)
     system.addForce(disp_force)
     system.addForce(chg_except_force)
     system.addForce(disp_except_force)
-    print(" Total charge: ", total_charge)
+    print("     Total charge of system: {:.5f}".format(total_charge))

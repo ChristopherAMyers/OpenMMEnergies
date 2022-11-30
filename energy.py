@@ -185,7 +185,7 @@ if __name__ == '__main__':
 
     #   set up custom energy reporter
     if opts.nonbonded_eda:
-        create_decomposed_forces(system, topol=topol, exclude_self=opts.nonbonded_res_only)
+        create_decomposed_forces(system, topol=topol, exclude_self=opts.nonbonded_res_only, fragments=opts.fragments)
     eng_report = EnergyReporter(1, system, nonbonded_eda=opts.nonbonded_eda)
 
     #   set up integrator and simulation objects

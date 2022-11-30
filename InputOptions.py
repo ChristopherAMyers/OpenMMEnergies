@@ -28,9 +28,8 @@ class InputOptions(object):
         self.nonbonded_res_only = False
 
         #   not implimented yet
-        self.frag_opt = False
-        self.n_frags = 1
-        self.frag_idx_list = []
+        self.fragments = {}
+        self.use_fragments = False
 
         if input_file is not None:
             self.read(input_file)
@@ -75,6 +74,37 @@ class InputOptions(object):
                 elif value == 'bfgs':                   self.opt_mode = 'bfgs'
                 else:
                     raise ValueError('Invalid value for rem option "opt_mode"')
+
+        fragments = {}
+        for line in input_lines['frags']:
+            name = line[0].lower()
+            range_syntex = line[1].lower()
+
+            if name not in fragments:
+                fragments[name] = set()
+
+
+            if "-" in range_syntex:
+                sp = range_syntex.strip().split('-')
+                start = int(sp[0])
+                if len(sp) >= 2:
+                    end = int(sp[1])
+                else:
+                    exit("Error: fragment range must have a START and END id.")
+            else:
+                start = end = int(range_syntex)
+
+            for i in range(start, end + 1):
+                fragments[name].add(i)
+
+        if len(fragments) == 1:
+            exit("Error: At least two fragments must be defined")
+        elif len(fragments) >= 2:
+            for name in fragments:
+                fragments[name] = tuple(sorted(fragments[name]))
+            self.fragments = fragments
+            self.use_fragments = True
+
 
             
 
