@@ -16,6 +16,7 @@ from minimize import BFGS
 from Drude import drude
 from InputOptions import InputOptions
 from Nonbonded import *
+from Amber import Amber
 
 
 # pylint: disable=no-member
@@ -135,6 +136,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-pdb', help='PDB file to base the calcualtions off of', required=True)
     parser.add_argument('-psf', help='CHARMM PSF topology file')
+    parser.add_argument('-prm', help='AMBER prmtop topology file')
     parser.add_argument('-xyz', help='XYZ file of coordinate frames to loop over')
     parser.add_argument('-qcin', help='Q-Chem input file with coordantes to use')
     parser.add_argument('-chg', help='Supplimental column of charges to use')
@@ -160,6 +162,9 @@ if __name__ == '__main__':
     if args.psf:
         print(" Creating Drude System")
         system = drude.create_system(args.psf)
+    elif args.prm:
+        print(" Creating Amber System")
+        system = Amber.create_system(args.prm)
     else:
         print(" Creating System")
         system = create_system(args, topol)
@@ -186,9 +191,8 @@ if __name__ == '__main__':
     #   set up integrator and simulation objects
     #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
-    simulation = Simulation(topol, system, integrator)
+    simulation = Simulation(topol, system, integrator, platform=Platform_getPlatformByName('Reference'))
     simulation.context.setPositions(pdb.getPositions())
-    #exit()
 
     #   replace charges in force field with provided charge list
     if args.chg:
