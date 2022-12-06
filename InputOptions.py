@@ -26,10 +26,8 @@ class InputOptions(object):
         self.opt_freeze_drude = False
         self.nonbonded_eda = False
         self.nonbonded_res_only = False
-
-        #   not implimented yet
         self.fragments = {}
-        self.use_fragments = False
+        self.compute_forces = False
 
         if input_file is not None:
             self.read(input_file)
@@ -74,6 +72,7 @@ class InputOptions(object):
                 elif value == 'bfgs':                   self.opt_mode = 'bfgs'
                 else:
                     raise ValueError('Invalid value for rem option "opt_mode"')
+            if option == 'compute_forces':              self.compute_forces = int(value)
 
         fragments = {}
         for line in input_lines['frags']:
@@ -103,7 +102,7 @@ class InputOptions(object):
             for name in fragments:
                 fragments[name] = tuple(sorted(fragments[name]))
             self.fragments = fragments
-            self.use_fragments = True
+
 
 
             

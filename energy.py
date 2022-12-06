@@ -18,6 +18,7 @@ from InputOptions import InputOptions
 from Nonbonded import *
 from Amber import Amber
 
+PDBReporter
 
 # pylint: disable=no-member
 import openmm
@@ -186,12 +187,12 @@ if __name__ == '__main__':
     #   set up custom energy reporter
     if opts.nonbonded_eda:
         create_decomposed_forces(system, topol=topol, exclude_self=opts.nonbonded_res_only, fragments=opts.fragments)
-    eng_report = EnergyReporter(1, system, nonbonded_eda=opts.nonbonded_eda)
+    eng_report = EnergyReporter(1, system, nonbonded_eda=opts.nonbonded_eda, compute_forces=opts.compute_forces, keep_results=True)
 
     #   set up integrator and simulation objects
     #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
-    simulation = Simulation(topol, system, integrator, platform=Platform_getPlatformByName('Reference'))
+    simulation = Simulation(topol, system, integrator, platform=Platform_getPlatformByName('CPU'))
     simulation.context.setPositions(pdb.getPositions())
 
     #   replace charges in force field with provided charge list
@@ -262,6 +263,7 @@ if __name__ == '__main__':
         opt_state = simulation.context.getState(getPositions=True)
         print(" Minimized Energy:")
         eng_report.report(simulation, opt_state)
+
     else:
         print(" There are {:d} frames to loop over".format(len(coords_to_use)))
         for n, coords in enumerate(coords_to_use):

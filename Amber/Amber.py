@@ -14,6 +14,6 @@ def create_system(prmtop_file):
     #system = top.createSystem(nonbondedCutoff=NoCutoff)
 
     parm = parmed.amber.AmberParm(prmtop_file)
-    system = parm.createSystem()
+    system = parm.createSystem(nonbondedCutoff=NoCutoff)
     
     return system
