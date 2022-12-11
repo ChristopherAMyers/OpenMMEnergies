@@ -174,12 +174,12 @@ class EnergyReporter(object):
             print(" --------------------------------------------- ")
             print("             Energy Decomposition              ")
             print(" --------------------------------------------- ")
-            total = 0 * unit.kilojoule_per_mole
+            total = 0
             for f, i in self._force_groups.items():
                 
                 state = simulation.context.getState(getEnergy=True, getForces=self._compute_forces, groups={i})
                 #state = simulation.context.getState(getEnergy=True, getForces=self._compute_forces, groups=2**i)
-                energy = state.getPotentialEnergy()
+                energy = state.getPotentialEnergy()/unit.kilojoule_per_mole
                 energy_name = self._type2name.get(type(f), str(f))
 
                 if energy_name in saved_data['energies']:
@@ -195,9 +195,9 @@ class EnergyReporter(object):
                 #energy_type = self._force_labels[f]
                 self._energy_terms[i] = {}
                 self._energy_terms[i]['energy'] = energy
-                saved_data['energies'][energy_name] = energy/unit.kilojoule_per_mole
+                saved_data['energies'][energy_name] = energy
 
-                print(" {:22} {:15.3f} kJ/mol".format(energy_name, energy/unit.kilojoule_per_mole))
+                print(" {:22} {:15.3f} kJ/mol".format(energy_name, energy))
                 total += energy
 
                 if self._compute_forces in [2]:
@@ -205,7 +205,7 @@ class EnergyReporter(object):
 
 
         print(" --------------------------------------------- ")
-        print(" {:22} {:15.3f} kJ/mol".format("Total energy", total/unit.kilojoule_per_mole))
+        print(" {:22} {:15.3f} kJ/mol".format("Total energy", total))
         print(" --------------------------------------------- ")
 
         if self._nonbonded_eda:

@@ -1,6 +1,29 @@
 import openmm.unit as unit
-from openmm.openmm import CustomBondForce, CustomNonbondedForce, NonbondedForce
+from openmm.openmm import *
 from itertools import combinations
+
+def remove_inter_forces(system, topol):
+    if isinstance(system, System):
+        keep_checking = True
+        while keep_checking:
+            keep_checking = False
+            for n, force in enumerate(system.getForces()):
+                print(type(force))
+                if type(force) in [HarmonicBondForce, HarmonicAngleForce, PeriodicTorsionForce]:
+                    system.removeForce(n)
+                    keep_checking = True
+                    break
+            
+            
+        for force in system.getForces():
+            if isinstance(force, NonbondedForce):
+                for res in topol.residues():
+                    for atom1 in res.atoms():
+                        for atom2 in res.atoms():
+                            if atom2.index <= atom1.index: continue
+                            p1, p2, chg_prod, sigma, eps = atom1.index, atom2.index, 0.0, 0.0, 0.0
+                            exception = (p1, p2, chg_prod, sigma, eps)
+                            force.addException(*exception, replace=True)
 
 def determine_fragment_index(topol, res_ids):
     fragment_index_list = []
@@ -99,7 +122,7 @@ def create_decomposed_forces(system, topol=None, exclude_self=False, fragments=N
         total_charge += chg/unit.elementary_charge
 
     if topol is not None and exclude_self:
-        print(" Excluding inter-residue nonbonded energies")
+        print(" Excluding intra-residue nonbonded energies")
         for res in topol.residues():
             for atom1 in res.atoms():
                 for atom2 in res.atoms():

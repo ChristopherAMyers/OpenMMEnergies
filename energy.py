@@ -183,6 +183,9 @@ if __name__ == '__main__':
                 system.removeForce(i)
                 break
             
+    #   remove inter-residue forces
+    if opts.inter_res_only:
+        remove_inter_forces(system, topol)
 
     #   set up custom energy reporter
     if opts.nonbonded_eda:
@@ -208,6 +211,7 @@ if __name__ == '__main__':
         mol.import_xyz(args.xyz)
         for frame in mol.frames:
             coords_to_use.append(np.copy(frame.coords)*angstroms)
+        del mol
     elif args.qcin:
         print(" Program will use Q-Chem input file for coordinates.")
         mol = molFileReader.QC()
