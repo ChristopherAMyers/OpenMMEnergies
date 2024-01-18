@@ -195,7 +195,7 @@ if __name__ == '__main__':
     #   set up integrator and simulation objects
     #   integrator is not actually used
     integrator = VerletIntegrator(2*femtoseconds)
-    simulation = Simulation(topol, system, integrator, platform=Platform_getPlatformByName('CPU'))
+    simulation = Simulation(topol, system, integrator, platform=Platform.getPlatformByName('CPU'))
     simulation.context.setPositions(pdb.getPositions())
 
     #   replace charges in force field with provided charge list
