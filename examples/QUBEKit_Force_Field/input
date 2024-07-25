@@ -1,0 +1,5 @@
+$rem
+	nonbonded_eda	True
+	print_eda	True
+	nonbonded_res_only True
+$end

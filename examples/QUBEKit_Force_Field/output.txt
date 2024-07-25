@@ -1,0 +1,1066 @@
+ Loading PDB File
+ Done Loading PDB
+WARNING: Residue name "UNK" might cause bonding issues
+ Creating System
+ Using included .xml file for the forcefield
+
+ A fragment interaction calculation has been requested for 0 fragments
+ ---------------------------------------------
+ ---------------------------------------------
+
+
+ Interaction energy decomposition is requested
+ Excluding intra-residue nonbonded energies
+     Total charge of system: 0.99999
+ Program will use XYZ frames.
+ There are 35 frames to loop over
+ 
+ Frame 0: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -89.753 kJ/mol
+ Custom Nonbonded 2             158.109 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                    73.414 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -89.753 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -33.688 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                 191.797 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy          68.356 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 1: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -83.557 kJ/mol
+ Custom Nonbonded 2             116.761 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                    38.262 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -83.557 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -30.261 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                 147.021 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy          33.204 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 2: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -78.029 kJ/mol
+ Custom Nonbonded 2              86.334 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                    13.364 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -78.029 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -27.278 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                 113.612 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy           8.305 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 3: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -73.075 kJ/mol
+ Custom Nonbonded 2              63.816 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                    -4.200 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -73.075 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -24.669 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  88.486 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy          -9.259 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 4: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -68.617 kJ/mol
+ Custom Nonbonded 2              47.062 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -16.496 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -68.617 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -22.378 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  69.440 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -21.555 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 5: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -64.592 kJ/mol
+ Custom Nonbonded 2              34.544 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -24.989 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -64.592 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -20.356 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  54.900 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -30.048 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 6: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -60.942 kJ/mol
+ Custom Nonbonded 2              25.147 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -30.736 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -60.942 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -18.565 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  43.713 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -35.794 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 7: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -57.622 kJ/mol
+ Custom Nonbonded 2              18.071 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -34.492 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -57.622 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -16.973 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  35.044 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -39.551 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 8: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -54.594 kJ/mol
+ Custom Nonbonded 2              12.729 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -36.806 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -54.594 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -15.551 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  28.281 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -41.864 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 9: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -51.822 kJ/mol
+ Custom Nonbonded 2               8.687 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -38.076 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -51.822 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -14.278 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  22.966 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -43.135 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 10: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -49.277 kJ/mol
+ Custom Nonbonded 2               5.626 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -38.593 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -49.277 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -13.134 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  18.760 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -43.651 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 11: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -46.935 kJ/mol
+ Custom Nonbonded 2               3.308 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -38.568 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -46.935 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -12.103 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  15.412 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -43.627 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 12: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -44.774 kJ/mol
+ Custom Nonbonded 2               1.556 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -38.160 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -44.774 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -11.171 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  12.728 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -43.218 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 13: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -42.775 kJ/mol
+ Custom Nonbonded 2               0.236 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -37.480 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -42.775 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                     -10.327 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                  10.563 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -42.539 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 14: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -40.921 kJ/mol
+ Custom Nonbonded 2              -0.752 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -36.614 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -40.921 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -9.560 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   8.807 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -41.673 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 15: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.180 kJ/mol
+ Custom Nonbonded               -39.197 kJ/mol
+ Custom Nonbonded 2              -1.486 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -35.624 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -39.197 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -8.861 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   7.375 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -40.683 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 16: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -37.592 kJ/mol
+ Custom Nonbonded 2              -2.023 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -34.556 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -37.592 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -8.224 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   6.200 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -39.615 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 17: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -36.093 kJ/mol
+ Custom Nonbonded 2              -2.409 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -33.443 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -36.093 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -7.641 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   5.232 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -38.502 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 18: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -34.692 kJ/mol
+ Custom Nonbonded 2              -2.677 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -32.310 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -34.692 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -7.107 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   4.430 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -37.369 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 19: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -33.379 kJ/mol
+ Custom Nonbonded 2              -2.854 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -31.174 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -33.379 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -6.617 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   3.763 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -36.233 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 20: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -32.147 kJ/mol
+ Custom Nonbonded 2              -2.962 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -30.049 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -32.147 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -6.167 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   3.205 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -35.108 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 21: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -30.988 kJ/mol
+ Custom Nonbonded 2              -3.015 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -28.944 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -30.988 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -5.753 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   2.738 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -34.003 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 22: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -29.897 kJ/mol
+ Custom Nonbonded 2              -3.026 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -27.864 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -29.897 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -5.371 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   2.345 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -32.923 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 23: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -28.868 kJ/mol
+ Custom Nonbonded 2              -3.006 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -26.815 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -28.868 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -5.019 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   2.013 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -31.874 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 24: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -27.896 kJ/mol
+ Custom Nonbonded 2              -2.962 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -25.799 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -27.896 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -4.693 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   1.731 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -30.858 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 25: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -26.977 kJ/mol
+ Custom Nonbonded 2              -2.900 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -24.818 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -26.977 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -4.393 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   1.492 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -29.877 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 26: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -26.106 kJ/mol
+ Custom Nonbonded 2              -2.825 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -23.873 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -26.106 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -4.114 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   1.289 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -28.932 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 27: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -25.281 kJ/mol
+ Custom Nonbonded 2              -2.741 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -22.963 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -25.281 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -3.856 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   1.115 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -28.022 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 28: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -24.498 kJ/mol
+ Custom Nonbonded 2              -2.650 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -22.089 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -24.498 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -3.616 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.966 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -27.148 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 29: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -23.753 kJ/mol
+ Custom Nonbonded 2              -2.555 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -21.250 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -23.753 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -3.394 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.839 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -26.309 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 30: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -23.045 kJ/mol
+ Custom Nonbonded 2              -2.458 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -20.445 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -23.045 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -3.188 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.729 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -25.504 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 31: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -22.371 kJ/mol
+ Custom Nonbonded 2              -2.361 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -19.673 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -22.371 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -2.996 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.635 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -24.731 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 32: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -21.728 kJ/mol
+ Custom Nonbonded 2              -2.263 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -18.932 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -21.728 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -2.817 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.554 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -23.991 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 33: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -21.114 kJ/mol
+ Custom Nonbonded 2              -2.167 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -18.223 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -21.114 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -2.651 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.484 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -23.281 kJ/mol
+ --------------------------------------------- 
+ 
+ Frame 34: 
+
+ --------------------------------------------- 
+             Energy Decomposition              
+ --------------------------------------------- 
+ Bond                             1.874 kJ/mol
+ Torsion                          0.006 kJ/mol
+ C.O.M. Remover                   0.000 kJ/mol
+ Angle                            3.179 kJ/mol
+ Custom Nonbonded               -20.529 kJ/mol
+ Custom Nonbonded 2              -2.073 kJ/mol
+ Custom Bond                      0.000 kJ/mol
+ Custom Bond 2                    0.000 kJ/mol
+ --------------------------------------------- 
+ Total energy                   -17.542 kJ/mol
+ --------------------------------------------- 
+
+ --------------------------------------------- 
+        Nonbonded Energy Decomposition         
+ --------------------------------------------- 
+ Electrostatic                  -20.529 kJ/mol
+ Electrostatic 1-4                0.000 kJ/mol
+ Dispersion                      -2.496 kJ/mol
+ Dispersion 1-4                   0.000 kJ/mol
+ Pauli 12 power                   0.423 kJ/mol
+ Pauli 12 power 1-4               0.000 kJ/mol
+ --------------------------------------------- 
+ Total Nonbonded energy         -22.601 kJ/mol
+ --------------------------------------------- 
